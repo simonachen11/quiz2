@@ -1,0 +1,82 @@
+# Based on sci-kit documentation
+# Imports
+from sklearn.feature_extraction.text import CountVectorizer
+corpus = [
+'Water - South Carolina',
+'Evolving Firearm Regulations',
+'Crime analysis in South Carolina',
+'Target aspect based sentiment analysis for urban neighborhoods',
+'Extracting synthesis procedure from solar cell perovskite based scientific publications',
+'Entity Recognition : Water Data Regulations',
+'TOS: Banks' Terms of Services summary',
+'Water Regulation Summarization',
+'Predicting the 2022 gubernatorial election of South Carolina using sentiment analysis of Twitter.',
+'Scientific Artical Summarization',
+'New FastText [with Election data]',
+'Chatbot to answer quesries regarding WHO Water Regulations',
+'Verifying various foods connection to improve diabetes using NLP techniques ',
+'Summarization of Terms and conditions',
+'Chatbot for Elections FAQ - State of Mississippi',
+'Image Captioning using Transformer Models',
+'Specialist Doctor Recommendation System',
+'Application of Artificial Neural Networks (ANN) to Automatic Speech Recognition (ASR) on a Novel Dataset created using YouTube',
+'Detecting and rating severity of urgency in short, one-time crisis events vs. ongoing ones',
+'Water Regulations - Arizona',
+'Damaged doc. prediction (10%)',
+'Visual Question Answering',
+
+
+# Single word representation
+vectorizer = CountVectorizer()
+X = vectorizer.fit_transform(corpus)
+print(vectorizer.get_feature_names())
+print(X.toarray())
+
+res = X.toarray()
+res[0]
+
+from sklearn.metrics.pairwise import cosine_similarity
+# Measuring distance between first and other docs
+for i in range(len(res)):
+    print ("Distance with doc - ", i , " is - ", cosine_similarity(res[0].reshape(1, -1), res[i].reshape(1, -1)))
+
+# N-gram representation (2- and 3-; word based)
+vectorizer2 = CountVectorizer(analyzer='word', ngram_range=(2, 3))
+X2 = vectorizer2.fit_transform(corpus)
+print(vectorizer2.get_feature_names())
+print(X2.toarray())
+
+res = X2.toarray()
+res[0]
+
+# Measuring distance between first and other docs
+for i in range(len(res)):
+    print ("Distance with doc - ", i , " is - ", cosine_similarity(res[0].reshape(1, -1), res[i].reshape(1, -1)))
+
+
+vectorizer3 = CountVectorizer(analyzer='char', ngram_range=(2,2))
+X3 = vectorizer3.fit_transform(corpus)
+print(vectorizer3.get_feature_names())
+print(X3.toarray())
+
+
+res = X3.toarray()
+res[0]
+
+# Measuring distance between first and other docs
+for i in range(len(res)):
+    print ("Distance with doc - ", i , " is - ", cosine_similarity(res[0].reshape(1, -1), res[i].reshape(1, -1)))
+
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+# TFIDR Vectorizer gives value based on Inverse Document Frequency, i.e., relative
+# occurence of words in the documents. Hence, context is by word frequency.
+vectorizer = TfidfVectorizer()
+X = vectorizer.fit_transform(corpus)
+print(vectorizer.get_feature_names())
+print(X.toarray())
+
+
+from sklearn.metrics.pairwise import cosine_similarity 
+for i in range(1, len(corpus)):
+    print ("similarity of doc-1 (" + corpus[0] + ") with " + str(i) + "(" + corpus[i] + ") is = "  + str(cosine_similarity (X[0], X[i])))
